@@ -1,5 +1,6 @@
 package com.saucedo.molino.security.services;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ public class UsuarioService {
 	
 	public Usuario findUsuarioByUsername(String username) {
 		return this.usuarioRepository.findByUsername(username);
+	}
+	public List<Usuario> findAll(){
+		return this.usuarioRepository.findAll();
 	}
 	public void save(Usuario usuario) {
 		usuario.setPassword(this.bCryptPasswordEncoder.encode(usuario.getPassword()));

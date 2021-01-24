@@ -39,7 +39,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 			List<SimpleGrantedAuthority> authorities;
 			try {
-				authorities = this.jwtService.roles(token).stream().map((role) -> new SimpleGrantedAuthority(role))
+				authorities = this.jwtService.roles(token).stream().map((role) -> new SimpleGrantedAuthority("ROLE_"+role))
 						.collect(Collectors.toList());
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 						this.jwtService.user(token), null, authorities);
@@ -51,12 +51,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 		} else {
 			if(request.getRequestURI().compareTo(APIUserPath.CONTROLLER_PATH+APIUserPath.AUTHORIZATION)!=0) {
-				System.out.println(">>>>>>>>>>>>>>> Se fue a la mierda ... "+request.getRequestURI());
-				System.out.println(">>>>>>>>>>>>>>>"+APIUserPath.CONTROLLER_PATH+APIUserPath.AUTHORIZATION);
 				return;
 			}
 		}
-		System.out.println(">>>>>>>>>>>>>>> Paso .....................");
 		filterChain.doFilter(request, response);
 	}
 }

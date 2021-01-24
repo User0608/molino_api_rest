@@ -16,6 +16,14 @@ public class Usuario {
 	@Column(name="owner") private String owner;
 	@Column(name="state") private Integer state;
 	
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name = "usuario_roles", 
 				joinColumns = { @JoinColumn(name = "usuario_id") }, 
@@ -74,6 +82,7 @@ public class Usuario {
 		if(state) this.state=1;
 		else this.state=0;
 	}
+	
 
 	public Set<KRole> getRoles() {
 		return roles;
@@ -84,6 +93,7 @@ public class Usuario {
 	}
 	public void addRole(KRole role) {
 		if(role!=null) {
+			System.out.println(role.toString());
 			role.addUser(this);
 			this.roles.add(role);
 		}		

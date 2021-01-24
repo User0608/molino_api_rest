@@ -45,8 +45,7 @@ public class JwtService {
 				
 	}
 	
-	public boolean isBearer(String token) {	
-		System.out.println(token);
+	public boolean isBearer(String token) {
 		return token!=null;
 	}
 	public String user(String token) throws JwtException {
