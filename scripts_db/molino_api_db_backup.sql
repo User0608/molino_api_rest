@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 22, 2021 at 06:00 PM
+-- Generation Time: Jan 25, 2021 at 05:33 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.3.25
 
@@ -39,7 +39,9 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`role_id`, `nombre`, `descripcion`) VALUES
 (1, 'USUARIO', 'Es el role con el menor número de privilegios en el sistema'),
-(2, 'ADMIN', 'es el role con el MAXIMO número de privilegios en el sistema');
+(2, 'ADMIN', 'es el role con el MAXIMO número de privilegios en el sistema'),
+(3, 'RECEPCION', 'RECEPCION'),
+(4, 'SECADO', 'SECADO');
 
 -- --------------------------------------------------------
 
@@ -60,7 +62,12 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`usuario_id`, `username`, `pwd`, `owner`, `state`) VALUES
-(1, 'kevin002', '$2a$10$VrkUU5MF08FQFJa75HBOTOCCTZjpQY33p28PdHFjBuxUTLXNT.C8C', 'admin.1', 1);
+(1, 'kevin002', '$2a$10$VrkUU5MF08FQFJa75HBOTOCCTZjpQY33p28PdHFjBuxUTLXNT.C8C', 'admin.1', 1),
+(2, 'richard09', '$2a$10$WfRk/EEBgXp/vctfLDKb6.WC2VBQxI8/gdKPU.i6AxmPJOVaEZ6iq', 'usuario', 1),
+(3, 'angel73', '$2a$10$1xthBNvgmxs/FzVPcjcg4.LNyxBzW45lKsUhaN8b9xBIt3DAZ.BLO', 'usuario', 1),
+(4, 'jose2020', '$2a$10$fzEbPSGtTdsS69zVGefwZ.KoieuRYZDlecsI2hjgQCcl0/Ud63Kgy', 'usuario', 1),
+(5, 'marcosx7', '$2a$10$UJooMyRWAg1dhWFhkugV6uJQ2byQ7zJinH2wH3ioV0M7MF.LpccZC', 'usuario', 1),
+(6, 'user2020', '$2a$10$d0EBohCxSBTeCGHHcINXNuvZI99c4VlIEPg76Fgnn11Zk/YxXJ6ay', 'usuario', 1);
 
 -- --------------------------------------------------------
 
@@ -78,7 +85,11 @@ CREATE TABLE `usuario_roles` (
 --
 
 INSERT INTO `usuario_roles` (`usuario_id`, `role_id`) VALUES
-(1, 2);
+(1, 2),
+(2, 3),
+(3, 4),
+(5, 3),
+(6, 4);
 
 --
 -- Indexes for dumped tables
@@ -111,13 +122,13 @@ ALTER TABLE `usuario_roles`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

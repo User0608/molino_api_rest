@@ -24,7 +24,7 @@ public class Usuario {
 		this.state = state;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "usuario_roles", 
 				joinColumns = { @JoinColumn(name = "usuario_id") }, 
 				inverseJoinColumns = { @JoinColumn(name = "role_id") })
@@ -93,7 +93,6 @@ public class Usuario {
 	}
 	public void addRole(KRole role) {
 		if(role!=null) {
-			System.out.println(role.toString());
 			role.addUser(this);
 			this.roles.add(role);
 		}		

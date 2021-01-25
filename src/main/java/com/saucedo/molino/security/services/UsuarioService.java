@@ -24,5 +24,14 @@ public class UsuarioService {
 	public void save(Usuario usuario) {
 		usuario.setPassword(this.bCryptPasswordEncoder.encode(usuario.getPassword()));
 		this.usuarioRepository.save(usuario);	
-	}	
+	}
+	public void saveWithoutEncrypt(Usuario usuario) {
+		this.usuarioRepository.save(usuario);	
+	}
+	public void deleteAllRelationWithRole(Long usuarioId) {
+		this.usuarioRepository.deleteAllRelationWithRole(usuarioId);
+	}
+	public void delete(Usuario usuario) {
+		this.usuarioRepository.delete(usuario);
+	}
 }
