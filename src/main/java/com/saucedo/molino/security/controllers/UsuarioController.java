@@ -114,7 +114,7 @@ public class UsuarioController {
 	@RequestMapping(value = APIUserPath.DELETE_USUARIO, method = RequestMethod.DELETE)
 	public ResponseEntity<?> delete(@PathVariable(value = "username") String username) {
 		Usuario usuario = this.usuarioService.findUsuarioByUsername(username);
-		this.usuarioService.deleteAllRelationWithRole(usuario.getId());		
+		this.usuarioService.deleteAllRelationWithRole(usuario.getId());
 		usuario.setRoles(new HashSet<KRole>());
 		this.usuarioService.delete(usuario);
 		return ResponseEntity.ok(new JResponse(JResponse.OK));

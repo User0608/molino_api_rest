@@ -18,7 +18,7 @@ import com.saucedo.molino.security.models.KRole;
 import com.saucedo.molino.security.models.Usuario;
 
 @Service
-public class JwtService {
+public class JwtService{
 	public static final String ROLES = "roles";
 	public static final String USER = "user";
 	public static final String OWNER = "owner";
