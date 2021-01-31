@@ -18,6 +18,9 @@ public class UsuarioService {
 	public Usuario findUsuarioByUsername(String username) {
 		return this.usuarioRepository.findByUsername(username);
 	}
+	public Usuario findUsuarioByOwner(String owner) {
+		return this.usuarioRepository.findByOwner(owner);
+	}
 	public List<Usuario> findAll(){
 		return this.usuarioRepository.findAll();
 	}

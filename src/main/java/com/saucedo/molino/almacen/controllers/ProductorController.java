@@ -55,7 +55,7 @@ public class ProductorController {
 	ResponseEntity<?> update(@RequestBody JProductor jp) {
 //		System.out.println("Server Side: "+jp.toString());
 		Productor productor = this.parseJSONProdutorToProductor(jp);
-		this.productorRepository.save(productor);
+		//this.productorRepository.save(productor);
 		if (productor != null && jp.getId() != null) {
 			if (this.productorRepository.findById(jp.getId()) != null) {
 				this.productorRepository.save(productor);

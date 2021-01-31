@@ -12,8 +12,11 @@ import com.saucedo.molino.security.models.Usuario;
 @Repository 
 public interface UsuarioRepository extends JpaRepository<Usuario,Long>{
 	public Usuario findByUsername(String username);
+	public Usuario findByOwner(String owner);
 	@Modifying
     @Transactional
 	@Query(value="DELETE FROM usuario_roles WHERE usuario_id=:usuarioId",nativeQuery = true)
 	public void deleteAllRelationWithRole(Long usuarioId);
+	
+	
 }

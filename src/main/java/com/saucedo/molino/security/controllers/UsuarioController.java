@@ -21,7 +21,7 @@ import com.saucedo.molino.security.models.KRole;
 import com.saucedo.molino.security.models.Usuario;
 import com.saucedo.molino.security.repositories.KRoleRepository;
 import com.saucedo.molino.security.services.UsuarioService;
-import com.saucedo.molino.security.utils.UsuarioJSON;
+import com.saucedo.molino.utils.parse.UsuarioParse;
 import com.saucedo.molino_json_models.JResponse;
 import com.saucedo.molino_json_models.security.JRole;
 import com.saucedo.molino_json_models.security.JUsuario;
@@ -37,6 +37,9 @@ public class UsuarioController {
 	private UsuarioService usuarioService;
 	@Autowired
 	private KRoleRepository kroleRepository;
+
+	@Autowired
+	private UsuarioParse parse;
 
 	@Autowired
 	private JwtService jwtService;
@@ -57,25 +60,17 @@ public class UsuarioController {
 		List<Usuario> usuarios = this.usuarioService.findAll();
 		List<JUsuario> urj = new ArrayList<JUsuario>();
 		for (Usuario u : usuarios) {
-			urj.add(UsuarioJSON.build(u));
+			urj.add(parse.parseEntityToJson(u));
 		}
 		return ResponseEntity.ok(urj);
 	}
 
 	@PreAuthorize(HasRole.ADMIN)
 	@RequestMapping(value = APIUserPath.INSERT_USUARIO, method = RequestMethod.POST)
-	public ResponseEntity<?> registrar(@RequestBody JUsuario usuario) {
-		List<JRole> roles = usuario.getRoles();
+	public ResponseEntity<?> registrar(@RequestBody JUsuario jUsuario) {
 		List<KRole> listOfRoles = this.kroleRepository.findAll();
-		Usuario u = new Usuario();
-		for (JRole rol : roles) {
-			u.addRole(this.filterRole(listOfRoles, rol.getName()));
-		}
-		u.setUsername(usuario.getUsername());
-		u.setPassword(usuario.getPassword());
-		u.setOwner(usuario.getOwner());
-		u.setState(usuario.getStringOfStatus().equals(JUsuario.STRATUS_ACTIVE) ? true : false);
-		Usuario oldUsuario = this.usuarioService.findUsuarioByUsername(usuario.getUsername());
+		Usuario u = this.parse.parseJsonToEntity(jUsuario, listOfRoles);
+		Usuario oldUsuario = this.usuarioService.findUsuarioByUsername(jUsuario.getUsername());
 		if (oldUsuario == null)
 			this.usuarioService.save(u);
 		else
@@ -89,10 +84,12 @@ public class UsuarioController {
 		Usuario oldUsuario = this.usuarioService.findUsuarioByUsername(usuario.getUsername());
 		this.usuarioService.deleteAllRelationWithRole(oldUsuario.getId());
 		List<JRole> roles = usuario.getRoles();
+		
 		List<KRole> listOfRoles = this.kroleRepository.findAll();
+		
 		oldUsuario.setRoles(new HashSet<KRole>());
 		for (JRole rol : roles) {
-			oldUsuario.addRole(this.filterRole(listOfRoles, rol.getName()));
+			oldUsuario.addRole(this.parse.filterRole(listOfRoles, rol.getName()));
 		}
 		boolean updatePassword = false;
 		if (usuario.getPassword().length() != 0)
@@ -120,11 +117,5 @@ public class UsuarioController {
 		return ResponseEntity.ok(new JResponse(JResponse.OK));
 	}
 
-	private KRole filterRole(List<KRole> roles, String roleName) {
-		for (KRole rol : roles) {
-			if (rol.getNombre().equals(roleName))
-				return rol;
-		}
-		return null;
-	}
+	
 }
