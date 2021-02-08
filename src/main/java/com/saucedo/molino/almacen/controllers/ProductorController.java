@@ -12,6 +12,7 @@ import com.saucedo.molino.almacen.models.Productor;
 import com.saucedo.molino.almacen.repositories.IProductorRepository;
 import com.saucedo.molino.security.HasRole;
 import com.saucedo.molino.utils.Valid;
+import com.saucedo.molino.utils.parse.alamcen.ProductorParse;
 import com.saucedo.molino_json_models.JResponse;
 import com.saucedo.molino_json_models.almacen.JProductor;
 import com.saucedo.molino.routes.*;
@@ -22,6 +23,9 @@ import com.saucedo.molino.routes.*;
 public class ProductorController {
 	@Autowired
 	private IProductorRepository productorRepository;
+	
+	@Autowired
+	private ProductorParse parse;
 
 	@RequestMapping(value = APIProductorPath.GET_ALL, method = RequestMethod.GET)
 	ResponseEntity<?> getAll() {
@@ -29,7 +33,7 @@ public class ProductorController {
 		List<JProductor> responseProductores = new ArrayList<JProductor>();
 		if (productores != null) {
 			for (Productor p : productores) {
-				responseProductores.add(this.parseProductorToJSONProductor(p));
+				responseProductores.add(parse.parseEntityToJson(p));
 			}
 		}
 		return ResponseEntity.ok(responseProductores);
@@ -38,12 +42,17 @@ public class ProductorController {
 	@RequestMapping(value = APIProductorPath.GET, method = RequestMethod.GET)
 	ResponseEntity<?> get(@PathVariable long id) {
 		return ResponseEntity
-				.ok(this.parseProductorToJSONProductor(this.productorRepository.findById(id).orElse(null)));
+				.ok(parse.parseEntityToJson(this.productorRepository.findById(id).orElse(null)));
+	}
+	@RequestMapping(value = APIProductorPath.GET_DNI, method = RequestMethod.GET)
+	ResponseEntity<?> get(@PathVariable String dni) {
+		return ResponseEntity
+				.ok(parse.parseEntityToJson(this.productorRepository.findByDni(dni).orElse(null)));
 	}
 
 	@RequestMapping(value = APIProductorPath.INSERT, method = RequestMethod.POST)
 	ResponseEntity<?> register(@RequestBody JProductor jp) {
-		Productor productor = this.parseJSONProdutorToProductor(jp);
+		Productor productor = parse.parseJsonToEntity(jp);
 		if (productor != null) {
 			this.productorRepository.save(productor);
 			return ResponseEntity.ok(new JResponse(JResponse.OK));
@@ -54,7 +63,7 @@ public class ProductorController {
 	@RequestMapping(value = APIProductorPath.UPDATE, method = RequestMethod.PUT)
 	ResponseEntity<?> update(@RequestBody JProductor jp) {
 //		System.out.println("Server Side: "+jp.toString());
-		Productor productor = this.parseJSONProdutorToProductor(jp);
+		Productor productor = parse.parseJsonToEntity(jp);
 		//this.productorRepository.save(productor);
 		if (productor != null && jp.getId() != null) {
 			if (this.productorRepository.findById(jp.getId()) != null) {
@@ -77,37 +86,6 @@ public class ProductorController {
 		}
 		return ResponseEntity.ok(new JResponse(JResponse.ERROR));
 
-	}
-
-	private Productor parseJSONProdutorToProductor(JProductor jp) {
-		Productor p = null;
-		if (jp != null) {
-			p = new Productor();
-			p.setId(jp.getId());
-			p.setDni(jp.getDni());
-			p.setNombre(jp.getNombre());
-			p.setApellidoPaterno(jp.getApellidoPaterno());
-			p.setApellidoMaterno(jp.getApellidoMaterno());
-			p.setDireccion(jp.getDireccion());
-			p.setTelefon(jp.getTelefon());
-			p.setEmail(jp.getEmail());
-		}
-		return p;
-	}
-
-	private JProductor parseProductorToJSONProductor(Productor p) {
-		JProductor jp = new JProductor();
-		if (p != null) {
-			jp.setId(p.getId());
-			jp.setDni(p.getDni());
-			jp.setNombre(p.getNombre());
-			jp.setApellidoPaterno(p.getApellidoPaterno());
-			jp.setApellidoMaterno(p.getApellidoMaterno());
-			jp.setDireccion(p.getDireccion());
-			jp.setTelefon(p.getTelefon());
-			jp.setEmail(p.getEmail());
-		}
-		return jp;
 	}
 
 }

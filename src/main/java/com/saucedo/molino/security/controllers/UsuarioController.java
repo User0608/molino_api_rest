@@ -51,7 +51,7 @@ public class UsuarioController {
 				authenticationRequest.getUsername(), authenticationRequest.getPassword()));
 		Usuario usuario = this.usuarioService.findUsuarioByUsername(authenticationRequest.getUsername());
 		String token = this.jwtService.createToken(usuario);
-		return ResponseEntity.ok(new SessionResponse(token, this.jwtService.user(token), this.jwtService.roles(token)));
+		return ResponseEntity.ok(new SessionResponse(token, this.jwtService.user(token),usuario.getOwner(), this.jwtService.roles(token)));
 	}
 
 	@PreAuthorize(HasRole.ADMIN)

@@ -2,13 +2,19 @@ package com.saucedo.molino.personal.models;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.saucedo.molino.almacen.models.RegistroIngreso;
 
 @Entity
 @Table(name="empleado")
@@ -30,6 +36,9 @@ public class Empleado {
 	@Column(name="fecha_contrato") private LocalDate fechaContrato;
 	@Column(name="estado") private boolean estado;
 	
+
+	@OneToMany(mappedBy="empleado",cascade= {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE})
+	private List<RegistroIngreso> registrosIngreso;
 	
 	public Empleado() {
 	}
@@ -98,6 +107,19 @@ public class Empleado {
 	}
 	public void setEstado(boolean estado) {
 		this.estado = estado;
+	}
+	
+	public List<RegistroIngreso> getRegistrosIngreso() {
+		return registrosIngreso;
+	}
+	public void setRegistrosIngreso(List<RegistroIngreso> registrosIngreso) {
+		this.registrosIngreso = registrosIngreso;
+	}
+	public void addRegistrosIngreso(RegistroIngreso ingreso) {
+		if(this.registrosIngreso==null)
+			this.registrosIngreso = new ArrayList<>();
+		ingreso.setEmpleado(this);
+		this.registrosIngreso.add(ingreso);
 	}
 	@Override
 	public String toString() {

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.saucedo.molino.personal.models.Empleado;
 import com.saucedo.molino_json_models.personal.JEmpleado;
+
 @Service
 public class EmpleadoParse implements IParse<Empleado,JEmpleado>{
 
