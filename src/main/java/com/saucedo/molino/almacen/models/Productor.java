@@ -1,10 +1,15 @@
 package com.saucedo.molino.almacen.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,6 +25,9 @@ public class Productor {
 	@Column(name="direccion") private String direccion;
 	@Column(name="telefono") private String telefon;
 	@Column(name="email") private String email;	
+	
+	@OneToMany(mappedBy="productor",cascade= {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE})
+	private List<LoteArroz> lotesArroz;
 	
 	public Long getId() {
 		return id;
@@ -110,8 +118,20 @@ public class Productor {
 		this.email = email;
 	}
 
+	
+	public List<LoteArroz> getLotesArroz() {
+		return lotesArroz;
+	}
 
-
+	public void setLotesArroz(List<LoteArroz> lotesArroz) {
+		this.lotesArroz = lotesArroz;
+	}
+	public void addLoteArroz(LoteArroz lote) {
+		if(this.lotesArroz==null)
+			this.lotesArroz=new ArrayList<>();
+		lote.setProductor(this);
+		this.lotesArroz.add(lote);
+	}
 	public Productor() {
 	}
 
