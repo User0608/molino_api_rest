@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 import com.saucedo.molino.almacen.models.LoteArroz;
 @Repository
 public interface ILoteArrozRepository extends JpaRepository<LoteArroz,Long> {
+	
 }

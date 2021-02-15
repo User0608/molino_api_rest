@@ -1,6 +1,5 @@
 package com.saucedo.molino.almacen.controllers;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +22,7 @@ public class TipoArrozController {
 	
 	@Autowired
 	ITipoArrozRepository repository;
+	
 	@Autowired
 	TipoArrozParse parser;
 	
