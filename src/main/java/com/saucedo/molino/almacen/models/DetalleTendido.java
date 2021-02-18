@@ -20,12 +20,14 @@ public class DetalleTendido {
 	@Column(name="fecha") private LocalDate fecha;
 	@Column(name="hora") private LocalTime hora;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="lote_secado_id")
 	private LoteSecado loteSecado;
 
 	@OneToOne(mappedBy="detalleTendido",cascade=CascadeType.ALL)
 	private DetalleRecojo detalleRecojo;
+	
+	
 	
 	public DetalleTendido() {
 	}

@@ -1,8 +1,6 @@
 package com.saucedo.molino.almacen.models;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -33,11 +30,12 @@ public class LoteSecado {
 	@JoinColumn(name="ubicacion_id")
 	private Ubicacion ubicacion;
 	
-	@OneToOne( mappedBy="loteSecado",cascade=CascadeType.MERGE)
+	@OneToOne( mappedBy="loteSecado",cascade=CascadeType.ALL)
 	private IngresoSecado ingreso;
 	
-	@OneToMany(mappedBy="loteSecado" ,cascade=CascadeType.ALL)
-	private List <DetalleGasto> detalleGastos;
+	@OneToOne( mappedBy="loteSecado",cascade=CascadeType.ALL)
+	private DetalleTendido tendido;
+	
 	
 	public LoteSecado() {
 	}
@@ -98,17 +96,13 @@ public class LoteSecado {
 	}
 	
 
-	public List<DetalleGasto> getDetalleGasto() {
-		return detalleGastos;
+
+	public DetalleTendido getTendido() {
+		return tendido;
 	}
 
-	public void setDetalleGasto(List<DetalleGasto> detalleGasto) {
-		this.detalleGastos = detalleGasto;
-	}
-	public void addDetalleGasto(DetalleGasto detalleGasto) {
-		if  (detalleGastos==null) detalleGastos=new ArrayList <DetalleGasto>();
-		detalleGasto.setLoteSecado(this);
-		this.detalleGastos.add(detalleGasto);
+	public void setTendido(DetalleTendido tendido) {
+		this.tendido = tendido;
 	}
 
 	@Override

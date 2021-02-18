@@ -31,8 +31,6 @@ public class IngresoSecado {
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="lote_secado_id")
 	private LoteSecado loteSecado;
-
-	
 	
 	public IngresoSecado() {
 	}
