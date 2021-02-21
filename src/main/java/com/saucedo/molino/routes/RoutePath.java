@@ -9,6 +9,8 @@ public class RoutePath {
 	public static final String ARROZ_LOTE_CONTROLLER_PATH ="/arroz/ingreso_lote";
 	public static final String AREA_SECADO_CONTROLLER_PATH ="/area/secado";
 	public static final String INGRESO_AREA_SECADO_CONTROLLER_PATH ="/arroz/ingreso_secado";
+	public static final String ARROZ_INGRESO_SECADO_TENDIDO="/arroz/detalle_tendido";
+	public static final String ARROZ_INGRESO_SECADO_RECOJO="/arroz/detalle_recojo";
 	
 	public static final String GET_ALL ="/all";
 	public static final String GET ="/{id}";
