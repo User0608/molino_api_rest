@@ -14,7 +14,7 @@ import com.saucedo.molino_json_models.almacen.JUbicacion;
 
 @Service
 public class AreaSecadoParse implements IParse<AreaSecado,JAreaSecado> {
-	@Autowired()
+	@Autowired
 	private UbicacionParse ubicacionParse;
 	
 	@Override

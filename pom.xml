@@ -42,7 +42,13 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-
+		<dependency>
+			<groupId>com.saucedo</groupId>
+			<artifactId>molino-json-models</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>C:\Users\KEVIN\Documents\Java_projects\molino-json-models\target\molino-json-models-1.0.jar</systemPath>
+		</dependency>
 		<!-- Interpreta y compila jsp -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
